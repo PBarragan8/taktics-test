@@ -26,7 +26,7 @@ A Budget has the following structure:
 
 With the following fields
 * A name, type string
-* A thumbnail, an image url so type string
+* A thumbnail, type string
 * A date, type date
 * A client name, type string
 * A total cost import (will be the sum of all chapters total cost)
@@ -56,6 +56,8 @@ A Batch has the following fields:
 
 So a new section "Budgets" on the sidebar must be created. This section will lead to a new view that will render an upper part with 3 filters: by name, by client name and by a range of dates; and on the bottom part a list with all the budgets (will show all the fields as columns, the thumbnail must be a column too) filtered by the filters.
 
+The results should be paginated and will allow the user to change the size of the page to 10, 25, 50 and 100 results.
+
 Every budget will have 2 actions: edit budget and delete budget.
 
 When editing the budget, will open a detail of the budget. This budget detail view has 2 sections:
@@ -71,7 +73,19 @@ When editing the budget, will open a detail of the budget. This budget detail vi
 
 When deleting the budget, will show a modal warning the user that the budget will be deleted. If the user selects "Accept", the budget will be deleted. If the user selects "Cancel", the modal will be closed.
 
-Finally the las action of the budgets table will be a create one that will open the same view as the edit budget but to create a new one.
+The user can create one budget that will open the same view as the edit budget but to create a new one.
+
+Finally, enable the selection of multiple budgets. Selecting more than one budget will enable 2 new actions:
+
+* Delete multiple budgets
+* Merge budgets. This action will create 1 budget with the data of all other budgets.
+
+## Technical Requirements
+The solution provided should have the following:
+
+* The solution has to be accessible on the internet
+* All data must be stored in a database
+* Images must be stored in a blob storage
 
 # Mockups
 Budget list
