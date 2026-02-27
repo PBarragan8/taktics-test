@@ -87,7 +87,7 @@ The solution provided should have the following:
 * All data must be stored in a database
 * Images must be stored in a blob storage
 
-# Mockups
+# Wireframes
 Budget list
 
 ![Budget list](budget_list.png)
