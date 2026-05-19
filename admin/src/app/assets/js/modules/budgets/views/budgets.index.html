@@ -1,0 +1,94 @@
+<div class="container-fluid">
+  <div class="row m-b-20">
+    <div class="col-md-6">
+      <h2>Budgets</h2>
+    </div>
+    <div class="col-md-6 text-right">
+      <a ui-sref="budgets-detail({ id: 'new' })" class="btn btn-primary">+ New Budget</a>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="row m-b-20">
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Filter by name..." ng-model="vm.filters.name">
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Filter by client..." ng-model="vm.filters.clientName">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-default btn-block" ng-click="vm.applyFilters()">Search</button>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-link" ng-click="vm.clearFilters()">Clear</button>
+    </div>
+  </div>
+
+  <!-- Acciones múltiples -->
+  <div class="row m-b-10" ng-if="vm.selectedIds.length > 1">
+    <div class="col-md-12">
+      <button class="btn btn-danger btn-sm m-r-10" ng-click="vm.deleteSelected()">
+        Delete selected ({{ vm.selectedIds.length }})
+      </button>
+      <button class="btn btn-warning btn-sm" ng-click="vm.mergeSelected()">
+        Merge selected
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th width="30px"></th>
+            <th>Name</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Total Cost</th>
+            <th>Total Sale</th>
+            <th width="120px">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-if="vm.budgets.length === 0">
+            <td colspan="7" class="text-center text-muted">No budgets found</td>
+          </tr>
+          <tr ng-repeat="budget in vm.budgets">
+            <td>
+              <input type="checkbox" ng-model="budget.selected" ng-change="vm.onSelect(budget)">
+            </td>
+            <td>{{ budget.name }}</td>
+            <td>{{ budget.clientName }}</td>
+            <td>{{ budget.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ budget.totalCostImport | currency }}</td>
+            <td>{{ budget.totalSaleImport | currency }}</td>
+            <td>
+              <a ui-sref="budgets-detail({ id: budget.id })" class="btn btn-xs btn-default m-r-5">Edit</a>
+              <button class="btn btn-xs btn-danger" ng-click="vm.deleteBudget(budget)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Paginación -->
+  <div class="row">
+    <div class="col-md-4">
+      <select class="form-control" ng-model="vm.pageSize" ng-change="vm.loadBudgets()" style="width:auto;display:inline-block">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="m-l-10 text-muted">per page — Total: {{ vm.total }}</span>
+    </div>
+    <div class="col-md-8 text-right">
+      <button class="btn btn-default btn-sm" ng-disabled="vm.page === 0" ng-click="vm.prevPage()">← Prev</button>
+      <span class="m-l-10 m-r-10">Page {{ vm.page + 1 }}</span>
+      <button class="btn btn-default btn-sm" ng-disabled="vm.budgets.length < vm.pageSize" ng-click="vm.nextPage()">Next →</button>
+    </div>
+  </div>
+</div>

@@ -1700,4 +1700,46 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
       return LoopBackResource;
     }];
   });
+  module.factory(
+    "Budget",
+    [
+      'LoopBackResource', 'LoopBackAuth', '$injector', '$q',
+      function(LoopBackResource, LoopBackAuth, $injector, $q) {
+        var R = LoopBackResource(
+          urlBase + "/Budgets/:id",
+          { 'id': '@id' },
+          {
+            "find": {
+              isArray: true,
+              url: urlBase + "/Budgets",
+              method: "GET",
+            },
+            "findById": {
+              url: urlBase + "/Budgets/:id",
+              method: "GET",
+            },
+            "create": {
+              url: urlBase + "/Budgets",
+              method: "POST",
+            },
+            "deleteById": {
+              url: urlBase + "/Budgets/:id",
+              method: "DELETE",
+            },
+            "prototype$patchAttributes": {
+              url: urlBase + "/Budgets/:id",
+              method: "PUT",
+            },
+            "count": {
+              url: urlBase + "/Budgets/count",
+              method: "GET",
+            },
+          }
+        );
+
+        R.modelName = "Budget";
+        return R;
+      }
+    ]
+  );
 })(window, window.angular);

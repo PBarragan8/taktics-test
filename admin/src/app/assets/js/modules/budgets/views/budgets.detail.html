@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="row m-b-20">
+    <div class="col-md-6">
+      <h2>{{ vm.isNew ? 'New Budget' : 'Edit Budget' }}</h2>
+    </div>
+    <div class="col-md-6 text-right">
+      <button class="btn btn-default m-r-10" ng-click="vm.cancel()">Cancel</button>
+      <button class="btn btn-primary" ng-click="vm.save()">Save</button>
+    </div>
+  </div>
+
+  <!-- Datos generales -->
+  <div class="row m-b-20">
+    <div class="col-md-4">
+      <label>Name</label>
+      <input type="text" class="form-control" ng-model="vm.budget.name">
+    </div>
+    <div class="col-md-4">
+      <label>Client</label>
+      <input type="text" class="form-control" ng-model="vm.budget.clientName">
+    </div>
+    <div class="col-md-4">
+      <label>Date</label>
+      <input type="date" class="form-control" ng-model="vm.budget.date">
+    </div>
+  </div>
+
+  <!-- Thumbnail -->
+  <div class="row m-b-30">
+    <div class="col-md-4">
+      <label>Thumbnail</label>
+      <div ng-if="vm.budget.thumbnail" class="m-b-10">
+        <img ng-src="{{ vm.budget.thumbnail }}" style="max-height:100px; max-width:200px;">
+        <br>
+        <button class="btn btn-xs btn-danger m-t-5" ng-click="vm.removeThumbnail()">Remove</button>
+      </div>
+      <input type="file" accept="image/*" onchange="angular.element(this).scope().vm.onFileSelect(this.files)">
+    </div>
+    <div class="col-md-4">
+      <label>Total Cost</label>
+      <p class="form-control-static"><strong>{{ vm.budget.totalCostImport | currency }}</strong></p>
+    </div>
+    <div class="col-md-4">
+      <label>Total Sale</label>
+      <p class="form-control-static"><strong>{{ vm.budget.totalSaleImport | currency }}</strong></p>
+    </div>
+  </div>
+
+  <!-- Chapters & Batches -->
+  <div class="row m-b-10">
+    <div class="col-md-12">
+      <button class="btn btn-success btn-sm" ng-click="vm.addChapter()">+ Add Chapter</button>
+    </div>
+  </div>
+
+  <div ng-repeat="(ci, chapter) in vm.budget.chapters" class="m-b-20">
+    <!-- Fila chapter -->
+    <table class="table table-bordered">
+      <thead style="background:#e8e8e8;">
+        <tr>
+          <th colspan="2">
+            <input type="text" class="form-control input-sm" ng-model="chapter.name" style="font-weight:bold;">
+          </th>
+          <th colspan="5" class="text-right">
+            Cost: <strong>{{ chapter.totalCostImport | currency }}</strong>
+            &nbsp;&nbsp; Sale: <strong>{{ chapter.totalSaleImport | currency }}</strong>
+          </th>
+          <th width="80px">
+            <button class="btn btn-xs btn-danger" ng-click="vm.removeChapter(ci)">Delete</button>
+          </th>
+        </tr>
+        <tr>
+          <th>Batch name</th>
+          <th>Amount</th>
+          <th>Mat. Cost</th>
+          <th>Labour Cost</th>
+          <th>Coeff Mat.</th>
+          <th>Coeff Lab.</th>
+          <th>Total Cost</th>
+          <th>Total Sale</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(bi, batch) in chapter.batches">
+          <td><input type="text" class="form-control input-sm" ng-model="batch.name"></td>
+          <td><input type="number" class="form-control input-sm" ng-model="batch.amount" ng-change="vm.recalcBatch(batch, chapter)"></td>
+          <td><input type="number" class="form-control input-sm" ng-model="batch.materialCostImport" ng-change="vm.recalcBatch(batch, chapter)"></td>
+          <td><input type="number" class="form-control input-sm" ng-model="batch.labourCostImport" ng-change="vm.recalcBatch(batch, chapter)"></td>
+          <td><input type="number" class="form-control input-sm" ng-model="batch.saleCoeffMaterial" ng-change="vm.recalcBatch(batch, chapter)"></td>
+          <td><input type="number" class="form-control input-sm" ng-model="batch.saleCoeffLabour" ng-change="vm.recalcBatch(batch, chapter)"></td>
+          <td>{{ batch.totalCostImport | currency }}</td>
+          <td>{{ batch.totalSaleImport | currency }}</td>
+          <td><button class="btn btn-xs btn-danger" ng-click="vm.removeBatch(chapter, bi)">✕</button></td>
+        </tr>
+        <tr>
+          <td colspan="9">
+            <button class="btn btn-xs btn-default" ng-click="vm.addBatch(chapter)">+ Add Batch</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
