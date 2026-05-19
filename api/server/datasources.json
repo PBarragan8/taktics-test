@@ -1,6 +1,7 @@
 {
   "db": {
     "name": "db",
-    "connector": "memory"
+    "connector": "mongodb",
+    "url": "mongodb+srv://db_patricio:db_demo@taktics-cluster.dpyabxq.mongodb.net/taktics?appName=taktics-cluster"
   }
 }

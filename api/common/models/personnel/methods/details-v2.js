@@ -11,7 +11,7 @@ const Details = Personnel => {
       http: { path: '/:id/v2details', verb: 'get', status: 200 },
       accepts: [
         { arg: 'req', type: 'object', http: { source: 'req' } },
-        { arg: 'id', type: 'number', required: true },
+        { arg: 'id', type: 'string', required: true },
         { arg: 'options', type: 'object', http: 'optionsFromRequest' },
       ],
       returns: { type: 'object', root: true },
