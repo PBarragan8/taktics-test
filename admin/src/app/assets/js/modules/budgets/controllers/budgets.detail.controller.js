@@ -75,11 +75,18 @@ export default function BudgetsDetailController($rootScope, $state, $stateParams
     if (!files || !files[0]) return;
     var reader = new FileReader();
     reader.onload = function(e) {
-      vm.budget.thumbnail = e.target.result;
-      $rootScope.$apply();
+        var base64 = e.target.result;
+        Budget.upload({ base64: base64 }).$promise.then(function(res) {
+        vm.budget.thumbnail = res.url;
+        $rootScope.$apply();
+        }).catch(function() {
+        // fallback: guardar base64 directo
+        vm.budget.thumbnail = base64;
+        $rootScope.$apply();
+        });
     };
     reader.readAsDataURL(files[0]);
-  };
+    };
 
   vm.removeThumbnail = function() {
     vm.budget.thumbnail = '';

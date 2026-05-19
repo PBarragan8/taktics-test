@@ -1734,6 +1734,10 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               url: urlBase + "/Budgets/count",
               method: "GET",
             },
+            "upload": {
+              url: urlBase + "/Budgets/upload",
+              method: "POST",
+            },
           }
         );
 
